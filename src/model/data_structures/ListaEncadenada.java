@@ -191,57 +191,56 @@ public class ListaEncadenada <T extends Comparable <T>> implements ILista<T>{
 		
 	}
 	
-	public T deleteElement(int pos) throws PosException, VacioException
-	{
-		T retorno=null;
-		
-		 if (pos<1 || pos >size)
-		 {
-			 throw new PosException("La posición no es válida");
-		 }
-		 else if (isEmpty())
-		 {
-			 throw new VacioException("La lista está vacía");
-		 }
-		 else
-		 {
-			if ( pos==1)
-			{
-				retorno=removeFirst();
-			}
-			else if (pos==size())
-			{
-				retorno=removeLast();
-			}
-			else 
-			{
-				Nodo<T> actual= first;
-				if(actual.getNext()!=null) 
-				{	
-					Nodo<T> anterior=null;
-					while(actual.getNext()!=null && !actual.getInfo().equals(getElement(pos-1)))
-					{
-						anterior=actual;
-						actual=actual.getNext();
-					}
-					retorno=actual.getInfo();
-					anterior.disconnectNext(anterior);
-				}
-				else 
-				{
-					Nodo<T> anterior=null;
-					
-					retorno=actual.getInfo();
-					anterior.disconnectNext(anterior);
-				}
-			}
-		}
-		
-		size--;
-		
-		return retorno;
+	public T deleteElement(int pos) throws PosException, VacioException {
+	    validatePosition(pos);
+	    validateNotEmpty();
+
+	    if (pos == 1) {
+	        return removeFirst();
+	    }
+
+	    if (pos == size()) {
+	        return removeLast();
+	    }
+
+	    return removeAtPosition(pos);
 	}
-	
+
+	// Valida si la posición es válida
+	private void validatePosition(int pos) throws PosException {
+	    if (pos < 1 || pos > size) {
+	        throw new PosException("La posición no es válida");
+	    }
+	}
+
+	// Valida si la lista no está vacía
+	private void validateNotEmpty() throws VacioException {
+	    if (isEmpty()) {
+	        throw new VacioException("La lista está vacía");
+	    }
+	}
+
+	// Elimina un elemento en una posición específica
+	private T removeAtPosition(int pos) {
+	    Nodo<T> current = first;
+	    Nodo<T> previous = null;
+
+	    // Recorrer hasta la posición
+	    for (int i = 1; i < pos; i++) {
+	        previous = current;
+	        current = current.getNext();
+	    }
+
+	    // Desconectar nodo y ajustar enlaces
+	    T value = current.getInfo();
+	    if (previous != null) {
+	    	previous.setNext(current.getNext()); 
+	    }
+
+	    size--;
+	    return value;
+	}
+
 	public T firstElement() throws VacioException
 	{
 		if (isEmpty())
