@@ -133,7 +133,12 @@ public class MinPQ<K extends Comparable<K> ,V extends Comparable <V>>
 		}
 		else if(tamano>0)
 		{
-			retornar=arbol.removeLast();
+			try {
+				retornar=arbol.removeLast();
+			} catch (VacioException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			tamano--;
 		}
 		

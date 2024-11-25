@@ -24,7 +24,7 @@ public class PilaEncadenada<T extends Comparable <T>> extends ListaEncadenada<T>
 		return null;
 	}
 	
-	public T top()
+	public T top() throws VacioException
 	{
 
 		return this.lastElement();

@@ -246,14 +246,19 @@ public class GrafoListaAdyacencia <K extends Comparable<K> ,V extends Comparable
 		PilaEncadenada<Vertex<K, V>> reverseTopological= reverse().topologicalOrder();
 		ITablaSimbolos<K, Integer> tabla= new TablaHashLinearProbing<K, Integer>(numVertices());
 		int idComponente=1;
-		while(reverseTopological.top()!=null)
-		{
-			Vertex<K, V> actual= reverseTopological.pop();
-			if(!actual.getMark())
+		try {
+			while(reverseTopological.top()!=null)
 			{
-				actual.getSCC(tabla, idComponente);
-				idComponente++;
+				Vertex<K, V> actual= reverseTopological.pop();
+				if(!actual.getMark())
+				{
+					actual.getSCC(tabla, idComponente);
+					idComponente++;
+				}
 			}
+		} catch (VacioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		unmark();

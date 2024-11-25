@@ -10,7 +10,7 @@ public interface ILista<T extends Comparable <T>> extends Comparable <ILista<T>>
 	
 	public T removeFirst() throws VacioException;
 	
-	public T removeLast();
+	public T removeLast() throws VacioException;
 	
 	public T deleteElement(int pos) throws PosException, VacioException;
 	
